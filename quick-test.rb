@@ -25,6 +25,8 @@ data5 = client.get_weather(lat: lat, lng: lng, timestamp: day_after_ts)
 
 dataset = Darksky::Api::DataSet.new(data1, data2, data3, data4, data5)
 
-p dataset.rainfall.between_hours(0, 119)
-p dataset.snow_accumulation.between_hours(0, 119)
+p dataset.rainfall.max_from_days(0..4)
+p dataset.snow_accumulation.max_from_days(0..4)
+p dataset.visibility.min_from_days(0..4)
+p dataset.data_sources
 

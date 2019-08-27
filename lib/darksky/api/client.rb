@@ -7,12 +7,11 @@ module Darksky
       base_uri "https://api.darksky.net/forecast/"
 
       def get_weather(lat:, lng:, timestamp:)
-        key = Darksky::Api.configuration.api_key
-        raw_result = self.class.get("/#{key}/#{lat},#{lng},#{timestamp}")
+        key         = Darksky::Api.configuration.api_key
+        raw_result  = self.class.get("/#{key}/#{lat},#{lng},#{timestamp}")
+        request_uri = raw_result.request.uri.to_s
 
-        parsed = JSON.parse(raw_result.body)
-
-        return WeatherData.new(parsed)
+        return WeatherData.new(request_uri, raw_result.parsed_response, lat, lng, timestamp)
       end
     end
   end
