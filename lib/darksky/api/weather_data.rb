@@ -4,12 +4,11 @@ module Darksky
 
       attr_reader :latitude, :longitude, :timestamp, :currently, :minutely, :hourly, :daily, :raw, :flags, :source_url
 
-      def initialize(source_url, json_data, latitude, longitude, timestamp)
+      def initialize(source_url, json_data)
         @source_url = source_url
         @raw        = json_data
         @latitude   = latitude
         @longitude  = longitude
-        @timestamp  = timestamp
 
         json_data.each do |k, v|
           instance_variable_set(:"@#{k}", v) if self.respond_to?(k)

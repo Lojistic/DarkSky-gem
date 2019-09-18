@@ -11,18 +11,9 @@ RSpec.describe Darksky::Api::WeatherData do
 
   describe "#new" do
 
-    it "sets identifying instance attributes" do
-      weather_data = Darksky::Api::WeatherData.new(source_url, JSON.parse(raw_data), lat, lng, timestamp)
-
-      expect(weather_data.source_url).to eq(source_url)
-      expect(weather_data.latitude).to eq(lat)
-      expect(weather_data.longitude).to eq(lng)
-      expect(weather_data.timestamp).to eq(timestamp)
-    end
-
     it "parses raw JSON responses" do
       parsed_raw   = JSON.parse(raw_data)
-      weather_data = Darksky::Api::WeatherData.new(source_url, parsed_raw, lat, lng, timestamp)
+      weather_data = Darksky::Api::WeatherData.new(source_url, parsed_raw)
 
       expect(weather_data.currently).to eq(parsed_raw['currently'])
       expect(weather_data.minutely).to eq(parsed_raw['minutely'])
@@ -36,7 +27,7 @@ RSpec.describe Darksky::Api::WeatherData do
 
     it "returns a hash of relevant weather data" do
       parsed_raw   = JSON.parse(raw_data)
-      weather_data = Darksky::Api::WeatherData.new(source_url, parsed_raw, lat, lng, timestamp)
+      weather_data = Darksky::Api::WeatherData.new(source_url, parsed_raw)
 
       attributes = weather_data.attributes
 
