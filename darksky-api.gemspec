@@ -6,8 +6,8 @@ require "darksky/api/version"
 Gem::Specification.new do |spec|
   spec.name          = "darksky-api"
   spec.version       = Darksky::Api::VERSION
-  spec.authors       = ["Steve Lewis"]
-  spec.email         = ["steve.l@lojistic.com"]
+  spec.authors       = ["Lojistic Dev Team"]
+  spec.email         = ["dev@lojistic.com"]
 
   spec.summary       = %q{ Simple wrapper around the DarkSky Weather API}
   spec.license       = "MIT"
