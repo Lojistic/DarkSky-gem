@@ -10,7 +10,7 @@ module Darksky
         key         = Darksky::Api.configuration.api_key
 
         request_path   = "/#{key}/#{lat},#{lng}"
-        request_path << ", #{timestamp}" if timestamp
+        request_path << ",#{timestamp}" if timestamp
 
         raw_result  = self.class.get(request_path)
         request_uri = raw_result.request.uri.to_s

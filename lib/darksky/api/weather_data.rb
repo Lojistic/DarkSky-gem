@@ -7,8 +7,9 @@ module Darksky
       def initialize(source_url, json_data)
         @source_url = source_url
         @raw        = json_data
-        @latitude   = latitude
-        @longitude  = longitude
+        @latitude   = json_data['latitude']
+        @longitude  = json_data['longitude']
+        @timestamp  = json_data['currently']['time']
 
         json_data.each do |k, v|
           instance_variable_set(:"@#{k}", v) if self.respond_to?(k)
