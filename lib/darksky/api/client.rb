@@ -6,12 +6,16 @@ module Darksky
       include HTTParty
       base_uri "https://api.darksky.net/forecast/"
 
-      def get_weather(lat:, lng:, timestamp:)
+      def get_weather(lat:, lng:, timestamp: nil)
         key         = Darksky::Api.configuration.api_key
-        raw_result  = self.class.get("/#{key}/#{lat},#{lng},#{timestamp}")
+
+        request_path   = "/#{key}/#{lat},#{lng}"
+        request_path << ", #{timestamp}" if timestamp
+
+        raw_result  = self.class.get(request_path)
         request_uri = raw_result.request.uri.to_s
 
-        return WeatherData.new(request_uri, raw_result.parsed_response, lat, lng, timestamp)
+        return WeatherData.new(request_uri, raw_result.parsed_response)
       end
     end
   end
