@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "darksky/api/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "darksky-api"
+  spec.name          = "darksky-weather-api"
   spec.version       = Darksky::Api::VERSION
   spec.authors       = ["Lojistic Dev Team"]
   spec.email         = ["dev@lojistic.com"]
