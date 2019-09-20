@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe Darksky::Api::WeatherData do
+RSpec.describe DarkskyWeather::Api::WeatherData do
 
   let(:fixture_path){ File.expand_path("#{File.dirname(__FILE__)}/../../fixtures/") }
   let(:raw_data){ File.read("#{fixture_path}/darksky_response.json") }
@@ -13,7 +13,7 @@ RSpec.describe Darksky::Api::WeatherData do
 
     it "parses raw JSON responses" do
       parsed_raw   = JSON.parse(raw_data)
-      weather_data = Darksky::Api::WeatherData.new(source_url, parsed_raw)
+      weather_data = DarkskyWeather::Api::WeatherData.new(source_url, parsed_raw)
 
       expect(weather_data.currently).to eq(parsed_raw['currently'])
       expect(weather_data.minutely).to eq(parsed_raw['minutely'])
@@ -27,7 +27,7 @@ RSpec.describe Darksky::Api::WeatherData do
 
     it "returns a hash of relevant weather data" do
       parsed_raw   = JSON.parse(raw_data)
-      weather_data = Darksky::Api::WeatherData.new(source_url, parsed_raw)
+      weather_data = DarkskyWeather::Api::WeatherData.new(source_url, parsed_raw)
 
       attributes = weather_data.attributes
 

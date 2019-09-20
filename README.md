@@ -1,4 +1,4 @@
-# Darksky::Api
+# DarkskyWeather::Api
 
 This gem provides a wrapper around the [Dark Sky API](https://darksky.net/dev) for retrieving and analyzing past and current weather forecasts. In order to use this gem, you'll need to [register for an account](https://darksky.net/dev/register) on Dark Sky so that you can get an API key to make requests with. The account is free, and your first 1,000 calls per day are also free. After that, you'll be billed for each subsequent call. See the [Dark Sky FAQ](https://darksky.net/dev/docs/faq) for more details.
 
@@ -8,7 +8,7 @@ This gem provides a wrapper around the [Dark Sky API](https://darksky.net/dev) f
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'darksky-api'
+gem 'darksky_weather-api'
 ```
 
 And then execute:
@@ -17,7 +17,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install darksky-api
+    $ gem install darksky_weather-api
 
 ## Usage
 
@@ -28,7 +28,7 @@ The main purpose of this gem is to make it easy to retrieve and perform basic an
 First create `config/initializers/darksky.rb`. Inside that file, place the following contents:
 
 ```ruby
-Darksky::Api.configure{|c| c.api_key = "YourDarkskySecretKeyHere" }
+DarkskyWeather::Api.configure{|c| c.api_key = "YourDarkskySecretKeyHere" }
 ```
 
 The above example not withstanding, it's a better security practice to store your API key outside of version control and to pass it in via configuration or environment variables. There are a number of methods for doing so which are beyond the scope of this documentation. In any case, once you've set up the initializer, you're done with all configuration.
@@ -48,7 +48,7 @@ The gem makes a [forecast request](https://darksky.net/dev/docs#forecast-request
 To fetch the current weather for a given location, you'll need to know the latitude and longitude of that location. You can obtain this information via a number of methods in a process called "geocoding". Both Google Maps and Bing Maps provide geocoding API's that will transform an address into a latitude, longitude pair. It's beyond the scope of this documentation to discuss their use in detail. Once you have a latitude, longitude pair to work with, retrieving weather is as simple as instantiating a client and calling a single method:
 
 ```ruby
-client    = Darksky::Api::Client.new
+client    = DarkskyWeather::Api::Client.new
 lat, lng  = [37.8267, -122.4233]
 client.get_weather(lat: lat, lng: lng)
 ```
@@ -75,7 +75,7 @@ Calling the `attributes` method on a `WeatherData` instance will return a Hash o
 Each of the data points in the Hash above _also_ corresponds to a method on the `WeatherData` instance. So, if you just want to know what the `max_precipitation` is, this is perfectly valid:
 
 ```ruby
-client       = Darksky::Api::Client.new
+client       = DarkskyWeather::Api::Client.new
 lat, lng     = [37.8267, -122.4233]
 weather_data = client.get_weather(lat: lat, lng: lng)
 
@@ -98,7 +98,7 @@ In addition, you can retrieve the URL for your particular API request by calling
 The gem also supports making [Dark Sky Time Machine Requests](https://darksky.net/dev/docs#time-machine-request). These work identically to a normal forecast request, with the exception that all of the data is related to the specified time in the past. You can make a time machine request by simply passing in a Unix timestamp along with the latitude and longitude in the `get_weather` call:
 
 ```ruby
-client       = Darksky::Api::Client.new
+client       = DarkskyWeather::Api::Client.new
 lat, lng     = [37.8267, -122.4233]
 weather_data = client.get_weather(lat: lat, lng: lng, timestamp: 30.days.ago.to_i)
 ```

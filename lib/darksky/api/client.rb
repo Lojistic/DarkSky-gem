@@ -1,6 +1,6 @@
 require 'httparty'
 
-module Darksky
+module DarkskyWeather
   module Api
     class Client
       include HTTParty
