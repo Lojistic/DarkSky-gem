@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    darksky-weather-api (0.1.0)
+    darksky_weather-api (0.1.0)
       activesupport
       httparty
 
@@ -50,7 +50,7 @@ PLATFORMS
 
 DEPENDENCIES
   bundler (~> 1.17)
-  darksky-weather-api!
+  darksky_weather-api!
   rake (~> 10.0)
   rspec (~> 3.0)
 
