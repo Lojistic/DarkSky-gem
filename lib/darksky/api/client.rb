@@ -7,7 +7,7 @@ module DarkskyWeather
       base_uri "https://api.darksky.net/forecast/"
 
       def get_weather(lat:, lng:, timestamp: nil)
-        key         = Darksky::Api.configuration.api_key
+        key         = DarkskyWeather::Api.configuration.api_key
 
         request_path   = "/#{key}/#{lat},#{lng}"
         request_path << ",#{timestamp}" if timestamp

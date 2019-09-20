@@ -3,7 +3,7 @@ require "darksky/api/client"
 require "darksky/api/weather_data"
 require "active_support/time"
 
-module Darksky
+module DarkskyWeather
   module Api
     class Error < StandardError; end
 
