@@ -1,6 +1,6 @@
-require "darksky/api/version"
-require "darksky/api/client"
-require "darksky/api/weather_data"
+require "darksky_weather/api/version"
+require "darksky_weather/api/client"
+require "darksky_weather/api/weather_data"
 require "active_support/time"
 
 module DarkskyWeather

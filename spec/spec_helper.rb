@@ -1,5 +1,5 @@
 require "bundler/setup"
-require "darksky/api"
+require "darksky_weather/api"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
