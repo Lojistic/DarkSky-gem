@@ -48,50 +48,18 @@ The gem makes a [forecast request](https://darksky.net/dev/docs#forecast-request
 To fetch the current weather for a given location, you'll need to know the latitude and longitude of that location. You can obtain this information via a number of methods in a process called "geocoding". Both Google Maps and Bing Maps provide geocoding API's that will transform an address into a latitude, longitude pair. It's beyond the scope of this documentation to discuss their use in detail. Once you have a latitude, longitude pair to work with, retrieving weather is as simple as instantiating a client and calling a single method:
 
 ```ruby
-client    = DarkskyWeather::Api::Client.new
-lat, lng  = [37.8267, -122.4233]
-client.get_weather(lat: lat, lng: lng)
-```
-
-Note the use of kwargs in the method call. Calling the `get_weather` method will return a `WeatherData` object that defines a number of useful methods/attributes:
-
-Calling the `attributes` method on a `WeatherData` instance will return a Hash of the following information:
-
-* `current_precipitation`: The amount of liquid rain in inches that has fallen as of the time of the weather report.
-* `current_accumulation`: The amount of snow accumulation, in inches, that is present as of the time of the weather report.
-* `current_visibility`: The number of miles of visibility at the time of the weather report.
-* `current_temperature`: The temperature, in fahrenheit, at the time of the weather report.
-* `current_wind_speed`: The sustained wind speed, in miles per hour, at the time of the weather report.
-* `current_wind_gust`: The wind gust speed, in miles per hour, at the time of the weather report.
-* `max_precipitation`: The largest amount of liquid rain, in inches, expected to fall on the day of the weather report.
-* `max_accumulation`: The largest amount of snow accumulation, in inches, expected for the day of the report.
-* `worst_visibility`: The worst visbility, (in terms of miles), expected for the day of the report.
-* `max_temperature`: The highest temperature, in fahrenheit, expected for the day of the report.
-* `min_temperature`: The lowest temperature, in fahrenheit, expected for the day of the report.
-* `max_wind_speed`: The highest sustained wind speed, in miles per hour, expected for the day of the report.
-* `max_wind_gust`: The highest wind gust speed, in miles per hour, expected for the day of the report.
-* `report_date`: The date that the report was requested for.
-
-Each of the data points in the Hash above _also_ corresponds to a method on the `WeatherData` instance. So, if you just want to know what the `max_precipitation` is, this is perfectly valid:
-
-```ruby
 client       = DarkskyWeather::Api::Client.new
 lat, lng     = [37.8267, -122.4233]
 weather_data = client.get_weather(lat: lat, lng: lng)
-
-puts weather_data.max_precipitation
-
 ```
-These attributes and convenience methods do _not_ represent the entirety of the data returned by the API call. Instead, the gem focuses on trying to present the data that's likely to be most useful for most contexts. That said, it is always possible to get back the entire API response as a Hash:
 
-```ruby
-  weather_data = client.get_weather(lat: lat, lng: lng)
-  response = weather_data.raw
-```
+Note the use of kwargs in the method call. Calling the `get_weather` method will return a `WeatherData` object that defines a number of useful methods/attributes. The attributes all correspond to the snake-cased version of the JSON key present in the API response. For instance, `weather_data.currently.apparent_temperature` corresponds with the JSON at `raw_response['currently']['apparentTemperature']`.
 
 For more information about all of the data that comes back from the request, [see the documentation](https://darksky.net/dev/docs).
 
 In addition, you can retrieve the URL for your particular API request by calling `source_url` on the `WeatherData` instance.
+
+There are additional methods that are useful for analyzing returned weather data that will be discussed further down.
 
 ### Fetching Historical Weather
 
@@ -104,6 +72,49 @@ weather_data = client.get_weather(lat: lat, lng: lng, timestamp: 30.days.ago.to_
 ```
 
 You'll get back a `WeatherData` object, just as before, with all of the same methods and attributes to work with.
+
+### Aggregating Weather Information
+
+The Darksky API is limited in the sense that you may only retrieve one day of weather at a time. However, there are many circumstances where you might want to _analyze_ that data as a single unit. For a simple instance, you may want to know what the maximum temperature over a 72 hour period was. To faciliate this sort of multi-day grouping, this gem introduces the concept of a `WeatherCollection`. A `WeatherCollection` is instantiated by passing two or more instances of `WeatherData` to a constructor:
+
+```ruby
+client       = DarkskyWeather::Api::Client.new
+lat, lng     = [37.8267, -122.4233]
+wd1 = client.get_weather(lat: lat, lng: lng, timestamp: 3.days.ago.to_i)
+wd2 = client.get_weather(lat: lat, lng: lng, timestamp: 2.days.ago.to_i)
+wd3 = client.get_weather(lat: lat, lng: lng, timestamp: 1.days.ago.to_i)
+
+collection = DarkskyWeather::Api::WeatherCollection.new(wd1, wd2, wd3)
+```
+
+A `WeatherCollection` is similar to a `WeatherData` object, in that it contains many of the same attributes, (`daily`, `hourly` and `minutely`), and all of the same methods for analyzing hour-by-hour weather information, discussed below. The primary difference lies in the fact that a `WeatherCollection` contains data for the full range of days, collated together.
+
+### Analyzing Weather Information
+
+Whether you're dealing with a `WeatherData` object or a `WeatherCollection`, the gem provides a handful of methods helpful for isolating and analyzing particular information about the weather. These methods are:
+
+* `max_precipitation`: Returns the largest amount of rainfall per hour within the data/collection.
+* `max_preciptiation_datetime`: Returns the datetime when the largest amount of rainful per hour occurred within the data/collection.
+* `max_accumulation`: Returns the largest amount of snowfall accumulation that occurred within the data/collection.
+* `max_accumulation_datetime`: Returns the datetime when the largest amount of snowfall accumulation was recorded within the data/collection.
+* `worst_visibility`: Returns the worst visibility number within the data/collection.
+* `worst_visibility_datetime`: Returns the datetime when the worst visibility within the data/collection was observed.
+* `max_temperature`: Returns the highest observed temperature within the data/collection
+* `max_temperature_datetime`: Returns the datetime when the highest observed temperature occurred within the data/collection
+* `min_temperature`: Returns the lowest observed temperature within the data/collection
+* `min_temperature_datetime`: Returns the datetime when the lowest observed temperature occurred within the data/collection
+* `max_wind_speed`: Returns the highest observed windspeed within the data/collection.
+* `max_wind_speed_datetime`: Returns the datetime when the highest windspeed within the data/collection was observed.
+* `max_wind_gust`: Returns the highest wind gust speed within the data/collection.
+* `max_wind_gust_datetime`: Returns the datetime when the highest observed wind gust speed occurred within the data/collection.
+
+Each of the methods above takes an optional array of "hours" as a parameter. If provided, the method will only considered the passed range of hours when returning a value. If left out, the entire array of "hours" returned by the API response will be considered.
+
+In order to get back a narrowed list of hours to work with, you could use standard array slicing methods, but the gem provides two methods that work on either a `WeatherData` or `WeatherCollection` object that will return narrowed sets of hours:
+
+The `weather_at` method takes an integer, (Unix) timestamp, and returns the hour of weather that corresponds with that timestamp. The timestamp doesn't have to be exact. If you pass the Unix time for 12:15 PM, the 12 PM hour will be returned.
+
+The `weather_between` method takes two integer (Unix) timestamps, and returns the hours of weather that fall between them, inclusive. Again, the timestamp doesn't have to be exact.
 
 ## Contributing
 

@@ -5,7 +5,7 @@ module DarkskyWeather
     class WeatherCollection
       include WeatherAnalysis
 
-      attr_reader :start_date, :end_date, :days_in_collection, :daily, :hourly, :minutely
+      attr_reader :start_date, :end_date, :daily, :hourly, :minutely
 
       def initialize(*weather_datas)
         @weather_datas = weather_datas
