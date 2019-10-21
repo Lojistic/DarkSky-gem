@@ -15,7 +15,7 @@ module DarkskyWeather
         raw_result  = self.class.get(request_path)
         request_uri = raw_result.request.uri.to_s
 
-        return WeatherData.new(request_uri, raw_result.parsed_response)
+        return WeatherData.new(timestamp, request_uri, raw_result.parsed_response)
       end
     end
   end
