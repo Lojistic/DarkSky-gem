@@ -75,7 +75,7 @@ You'll get back a `WeatherData` object, just as before, with all of the same met
 
 ### Aggregating Weather Information
 
-The Darksky API is limited in the sense that you may only retrieve one day of weather at a time. However, there are many circumstances where you might want to _analyze_ that data as a single unit. For a simple instance, you may want to know what the maximum temperature over a 72 hour period was. To faciliate this sort of multi-day grouping, this gem introduces the concept of a `WeatherCollection`. A `WeatherCollection` is instantiated by passing two or more instances of `WeatherData` to a constructor:
+The Darksky API is limited in the sense that you may only retrieve one day of historical weather at a time. However, there are many circumstances where you might want to _analyze_ that data as a single unit. For a simple instance, you may want to know what the maximum temperature over a 72 hour period was. To faciliate this sort of multi-day grouping, this gem introduces the concept of a `WeatherCollection`. A `WeatherCollection` is instantiated by passing two or more instances of `WeatherData` to a constructor:
 
 ```ruby
 client       = DarkskyWeather::Api::Client.new

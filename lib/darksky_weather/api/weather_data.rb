@@ -24,7 +24,9 @@ module DarkskyWeather
 
       def daily
         return nil unless @raw['daily']
-        OpenStruct.new(@raw['daily']['data'].first.deep_transform_keys{|k| k.underscore })
+        @raw['daily']['data'].map do |hsh|
+          OpenStruct.new(hsh.deep_transform_keys{|k| k.underscore })
+        end
       end
 
       def hourly
