@@ -1,7 +1,10 @@
-require "darksky_weather/api/version"
-require "darksky_weather/api/client"
-require "darksky_weather/api/weather_data"
 require "active_support/time"
+
+require File.dirname(__FILE__) + "/api/version"
+require File.dirname(__FILE__) + "/api/client"
+require File.dirname(__FILE__) + "/api/weather_analysis"
+require File.dirname(__FILE__) + "/api/weather_data"
+require File.dirname(__FILE__) + "/api/weather_collection"
 
 module DarkskyWeather
   module Api
