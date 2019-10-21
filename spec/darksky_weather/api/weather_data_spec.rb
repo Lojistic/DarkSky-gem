@@ -49,7 +49,7 @@ RSpec.describe DarkskyWeather::Api::WeatherData do
   describe "#daily" do
     it "wraps data about daily average weather conditions" do
       wd = DarkskyWeather::Api::WeatherData.new(timestamp, source_url, raw_data)
-      daily = wd.daily
+      daily = wd.daily.first
       raw_daily = raw_data['daily']['data'].first
 
       expect(daily.apparent_temperature_high).to eq raw_daily['apparentTemperatureHigh']
