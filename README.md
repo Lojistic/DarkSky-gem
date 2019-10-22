@@ -97,14 +97,18 @@ Whether you're dealing with a `WeatherData` object or a `WeatherCollection`, the
 * `max_preciptiation_datetime`: Returns the datetime when the largest amount of rainful per hour occurred within the data/collection.
 * `max_accumulation`: Returns the largest amount of snowfall accumulation that occurred within the data/collection.
 * `max_accumulation_datetime`: Returns the datetime when the largest amount of snowfall accumulation was recorded within the data/collection.
+* `best_visibility`: Returns the best visibility number within the data/collection.
+* `best_visibility_datetime`: Returns the datetime when the best visibility within the data/collection was observed.
 * `worst_visibility`: Returns the worst visibility number within the data/collection.
 * `worst_visibility_datetime`: Returns the datetime when the worst visibility within the data/collection was observed.
+* `average_visibility`: Returns the average visibility over the time period within the data/collection.
 * `max_temperature`: Returns the highest observed temperature within the data/collection
 * `max_temperature_datetime`: Returns the datetime when the highest observed temperature occurred within the data/collection
 * `min_temperature`: Returns the lowest observed temperature within the data/collection
 * `min_temperature_datetime`: Returns the datetime when the lowest observed temperature occurred within the data/collection
 * `max_wind_speed`: Returns the highest observed windspeed within the data/collection.
 * `max_wind_speed_datetime`: Returns the datetime when the highest windspeed within the data/collection was observed.
+* `average_wind_speed`: Returns the average wind speed within the data/collection.
 * `max_wind_gust`: Returns the highest wind gust speed within the data/collection.
 * `max_wind_gust_datetime`: Returns the datetime when the highest observed wind gust speed occurred within the data/collection.
 

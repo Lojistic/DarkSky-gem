@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    darksky_weather-api (0.2.0)
+    darksky_weather-api (0.2.1)
       activesupport
       httparty
 

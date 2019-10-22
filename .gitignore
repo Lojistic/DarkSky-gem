@@ -6,6 +6,7 @@
 /pkg/
 /spec/reports/
 /tmp/
+quick_test.rb
 
 # rspec failure tracking
 .rspec_status
