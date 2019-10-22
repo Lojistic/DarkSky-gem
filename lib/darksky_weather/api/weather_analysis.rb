@@ -17,65 +17,97 @@ module DarkskyWeather
         hourly.select{|h| h.time == compare_time.to_i }.first
       end
 
-      def max_precipitation(hours = hourly)
-        hours.map{|h| h.precip_intensity }.max || 0
+      def total_precipitation(type: 'rain', hours: hourly)
+        hours.select{|h| h.precip_type == type  }.map{|h| h.precip_intensity.to_f }.sum
       end
 
-      def max_precipitation_datetime(hours = hourly)
-        stamp = hours.sort_by{|h| h.precip_intensity.to_f }.last.time
+      def max_precipitation(type: 'rain', hours: hourly)
+        hours.select{|h| h.precip_type == type  }.map{|h| h.precip_intensity }.max || 0
+      end
+
+      def max_precipitation_datetime(type: 'rain', hours: hourly)
+        stamp = hours.select{|h| h.precip_type == type  }.sort_by{|h| h.precip_intensity.to_f }.last.time
         return DateTime.strptime(stamp.to_s, "%s")
       end
 
-      def max_accumulation(hours = hourly)
+      def max_accumulation(hours: hourly)
         hours.map{|h| h.precip_accumulation }.max || 0
       end
 
-      def max_accumulation_datetime(hours = hourly)
+      def max_accumulation_datetime(hours: hourly)
         stamp = hours.sort_by{|h| h.precip_accumulation }.last.time
         return DateTime.strptime(stamp.to_s, "%s")
       end
 
-      def worst_visibility(hours = hourly)
+      def worst_visibility(hours: hourly)
         hours.map{|h| h.visibility }.min || 10
       end
 
-      def worst_visibility_datetime(hours = hourly)
+      def worst_visibility_datetime(hours: hourly)
         stamp = hours.sort_by{|h| h.visibility }.first.time
         return DateTime.strptime(stamp.to_s, "%s")
       end
 
-      def max_temperature(hours = hourly)
+      def best_visibility(hours: hourly)
+        hours.map{|h| h.visibility }.max || 10
+      end
+
+      def best_visibility_datetime(hours: hourly)
+        stamp = hours.sort_by{|h| h.visibility }.last.time
+        return DateTime.strptime(stamp.to_s, "%s")
+      end
+
+      def average_visibility(hours: hourly)
+        visibility_total = hours.map{|h| h.visibility }.sum
+        return (visibility_total / hours.count.to_f).to_f
+      end
+
+      def max_temperature(hours: hourly)
         hours.map{|h| h.temperature }.max
       end
 
-      def max_temperature_datetime(hours = hourly)
+      def max_temperature_datetime(hours: hourly)
         stamp = hours.sort_by{|h| h.temperature }.last.time
         return DateTime.strptime(stamp.to_s, "%s")
       end
 
-      def min_temperature(hours = hourly)
+      def min_temperature(hours: hourly)
         hours.map{|h| h.temperature }.min
       end
 
-      def min_temperature_datetime(hours = hourly)
+      def min_temperature_datetime(hours: hourly)
         stamp = hours.sort_by{|h| h.temperature }.first.time
         return DateTime.strptime(stamp.to_s, "%s")
       end
 
-      def max_wind_speed(hours = hourly)
+      def max_wind_speed(hours: hourly)
         hours.map{|h| h.wind_speed }.max
       end
 
-      def max_wind_speed_datetime(hours = hourly)
+      def max_wind_speed_datetime(hours: hourly)
         stamp = hours.sort_by{|h| h.wind_speed }.last.time
         return DateTime.strptime(stamp.to_s, "%s")
       end
 
-      def max_wind_gust(hours = hourly)
+      def min_wind_speed(hours: hourly)
+        hours.map{|h| h.wind_speed }.min
+      end
+
+      def min_wind_speed_datetime(hours: hourly)
+        stamp = hours.sort_by{|h| h.wind_speed }.first.time
+        return DateTime.strptime(stamp.to_s, "%s")
+      end
+
+      def average_wind_speed(hours: hourly)
+        total_wind_speed = hours.map{|h| h.wind_speed }.sum
+        (total_wind_speed / hours.count.to_f).to_f
+      end
+
+      def max_wind_gust(hours: hourly)
         hours.map{|h| h.wind_gust }.max
       end
 
-      def max_wind_gust_datetime(hours = hourly)
+      def max_wind_gust_datetime(hours: hourly)
         stamp = hours.sort_by{|h| h.wind_gust }.last.time
         return DateTime.strptime(stamp.to_s, "%s")
       end
