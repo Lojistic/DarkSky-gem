@@ -49,13 +49,16 @@ To fetch the current weather for a given location, you'll need to know the latit
 
 ```ruby
 client       = DarkskyWeather::Api::Client.new
+opts         = {units: 'auto'}
 lat, lng     = [37.8267, -122.4233]
-weather_data = client.get_weather(lat: lat, lng: lng)
+weather_data = client.get_weather(lat: lat, lng: lng, opts: opts)
 ```
 
 Note the use of kwargs in the method call. Calling the `get_weather` method will return a `WeatherData` object that defines a number of useful methods/attributes. The attributes all correspond to the snake-cased version of the JSON key present in the API response. For instance, `weather_data.currently.apparent_temperature` corresponds with the JSON at `raw_response['currently']['apparentTemperature']`.
 
-For more information about all of the data that comes back from the request, [see the documentation](https://darksky.net/dev/docs).
+The `opts` hash will be converted into a query string and may contain key/value pairs for the four optional query parameters supported by the Darksky Api: `extend`, `units`, `exclude`, and `lang`.
+
+For more information about the optional parameters and all of the data that comes back from the request, [see the documentation](https://darksky.net/dev/docs).
 
 In addition, you can retrieve the URL for your particular API request by calling `source_url` on the `WeatherData` instance.
 
