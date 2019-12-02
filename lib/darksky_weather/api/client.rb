@@ -12,7 +12,7 @@ module DarkskyWeather
         request_path   = "/#{key}/#{lat},#{lng}"
         request_path << ",#{timestamp}" if timestamp
 
-        allowed_opts = %w(exclude lang units)
+        allowed_opts = %w(extend exclude lang units)
         opts.each_with_index do |o, idx|
           next unless allowed_opts.include?(o.first.to_s)
           sep_sym = idx == 0 ? '?' : '&'
