@@ -22,7 +22,7 @@ module DarkskyWeather
       end
 
       def max_precipitation(type: 'rain', hours: hourly)
-        hours.select{|h| h.precip_type == type  }.map{|h| h.precip_intensity }.max || 0
+        hours.select{|h| h.precip_type == type  }.map{|h| h.precip_intensity || 0.0 }.max || 0
       end
 
       def max_precipitation_datetime(type: 'rain', hours: hourly)
@@ -31,7 +31,7 @@ module DarkskyWeather
       end
 
       def max_accumulation(hours: hourly)
-        hours.map{|h| h.precip_accumulation }.max || 0
+        hours.map{|h| h.precip_accumulation || 0.0 }.max || 0
       end
 
       def max_accumulation_datetime(hours: hourly)
@@ -40,7 +40,7 @@ module DarkskyWeather
       end
 
       def worst_visibility(hours: hourly)
-        hours.map{|h| h.visibility }.min || 10
+        hours.map{|h| h.visibility || 0.0 }.min || 10
       end
 
       def worst_visibility_datetime(hours: hourly)
@@ -49,7 +49,7 @@ module DarkskyWeather
       end
 
       def best_visibility(hours: hourly)
-        hours.map{|h| h.visibility }.max || 10
+        hours.map{|h| h.visibility || 0.0 }.max || 10
       end
 
       def best_visibility_datetime(hours: hourly)
@@ -63,7 +63,7 @@ module DarkskyWeather
       end
 
       def max_temperature(hours: hourly)
-        hours.map{|h| h.temperature }.max
+        hours.map{|h| h.temperature || 0.0 }.max
       end
 
       def max_temperature_datetime(hours: hourly)
@@ -72,7 +72,7 @@ module DarkskyWeather
       end
 
       def min_temperature(hours: hourly)
-        hours.map{|h| h.temperature }.min
+        hours.map{|h| h.temperature || 0.0 }.min
       end
 
       def min_temperature_datetime(hours: hourly)
@@ -81,7 +81,7 @@ module DarkskyWeather
       end
 
       def max_wind_speed(hours: hourly)
-        hours.map{|h| h.wind_speed }.max
+        hours.map{|h| h.wind_speed || 0.0 }.max
       end
 
       def max_wind_speed_datetime(hours: hourly)
@@ -90,7 +90,7 @@ module DarkskyWeather
       end
 
       def min_wind_speed(hours: hourly)
-        hours.map{|h| h.wind_speed }.min
+        hours.map{|h| h.wind_speed || 0.0 }.min
       end
 
       def min_wind_speed_datetime(hours: hourly)
@@ -99,12 +99,12 @@ module DarkskyWeather
       end
 
       def average_wind_speed(hours: hourly)
-        total_wind_speed = hours.map{|h| h.wind_speed }.sum
+        total_wind_speed = hours.map{|h| h.wind_speed || 0.0 }.sum
         (total_wind_speed / hours.count.to_f).to_f
       end
 
       def max_wind_gust(hours: hourly)
-        hours.map{|h| h.wind_gust }.max
+        hours.map{|h| h.wind_gust || 0.0 }.max
       end
 
       def max_wind_gust_datetime(hours: hourly)
