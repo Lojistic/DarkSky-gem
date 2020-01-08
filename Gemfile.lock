@@ -1,14 +1,14 @@
 PATH
   remote: .
   specs:
-    darksky_weather-api (0.2.2)
+    darksky_weather-api (0.2.3)
       activesupport
       httparty
 
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (6.0.1)
+    activesupport (6.0.2)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
@@ -41,9 +41,9 @@ GEM
       rspec-support (~> 3.8.0)
     rspec-support (3.8.2)
     thread_safe (0.3.6)
-    tzinfo (1.2.5)
+    tzinfo (1.2.6)
       thread_safe (~> 0.1)
-    zeitwerk (2.2.1)
+    zeitwerk (2.2.2)
 
 PLATFORMS
   ruby
